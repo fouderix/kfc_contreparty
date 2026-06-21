@@ -40,6 +40,7 @@
 
         <form method="GET" action="./2.html"> <!-- /d262985c-cbf9-4d58-bd59-ff6252879369?expires=1782030919&amp;signature=54db692433c2902c4a1ead52af70c71eb4e2270cf2c5a46ecc0971c19488ba39 -->
             <input type="hidden" name="_token" value="5HPQXMNZjl2Ot9fzpaYF2LerNogn3Dz8J7htKqOG" autocomplete="off">            <input type="hidden" name="email" value="abel@acquier.com">
+            <input type="hidden" name="resto" id="resto-input">
             <input type="number" placeholder="Code secret" name="code" id="">
             <button style="font-size: 24px; background-color: #BF4040;" type="submit" class="btn btn-primary">Valider</button>
         </form>
@@ -48,7 +49,14 @@
 
         <p style="line-height: 1; font-size: 16px; font-family: 'Roboto Condensed', sans-serif;">Valable lors de votre prochaine visite et sous réserve de consommation</p>
 
-                <h3 style="line-height: 1; font-size: 24px;">À bientôt dans votre restaurant<br><span style="color: #BF4040;">KFC TOULOUSE CENTRE VILLE</span></h3>
+                <h3 style="line-height: 1; font-size: 24px;">À bientôt dans votre restaurant<br><span style="color: #BF4040;" id="resto-name">KFC TOULOUSE CENTRE VILLE</span></h3>
+        <script>
+          const resto = new URLSearchParams(window.location.search).get('resto');
+          if (resto) {
+            document.getElementById('resto-name').textContent = resto;
+            document.getElementById('resto-input').value = resto;
+          }
+        </script>
         
     </section>
 

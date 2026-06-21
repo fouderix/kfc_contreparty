@@ -36,7 +36,11 @@
                
         
         
-                            <h3 style="line-height: 1; font-size: 24px;">À bientôt dans votre restaurant<br><span style="color: #BF4040;">KFC TOULOUSE CENTRE VILLE</span></h3>
+                            <h3 style="line-height: 1; font-size: 24px;">À bientôt dans votre restaurant<br><span style="color: #BF4040;" id="resto-name">KFC TOULOUSE CENTRE VILLE</span></h3>
+        <script>
+          const resto = new URLSearchParams(window.location.search).get('resto');
+          if (resto) document.getElementById('resto-name').textContent = resto;
+        </script>
         
     </section>
 

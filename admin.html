@@ -10,8 +10,8 @@
         .card { background: #fff; padding: 40px; border-radius: 8px; width: 100%; max-width: 420px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
         h1 { font-size: 22px; margin-bottom: 24px; color: #BF4040; }
         label { display: block; font-size: 14px; font-weight: bold; margin-bottom: 6px; color: #333; }
-        input[type="email"] { width: 100%; padding: 10px 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 16px; }
-        input[type="email"]:focus { outline: none; border-color: #BF4040; }
+        input[type="email"], input[type="text"] { width: 100%; padding: 10px 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 16px; }
+        input[type="email"]:focus, input[type="text"]:focus { outline: none; border-color: #BF4040; }
         button { width: 100%; padding: 12px; font-size: 16px; background: #BF4040; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
         button:hover { background: #a33535; }
         .message { margin-top: 16px; padding: 10px 14px; border-radius: 4px; font-size: 14px; display: none; }
@@ -23,6 +23,10 @@
     <div class="card">
         <h1>Envoyer un email</h1>
         <form id="form">
+            <label for="resto">Nom du KFC</label>
+            <input type="text" id="resto" name="resto" placeholder="KFC TOULOUSE CENTRE VILLE" required oninput="this.value = this.value.toUpperCase()">
+            <label for="nom">Prénom du client</label>
+            <input type="text" id="nom" name="nom" placeholder="Jean" required>
             <label for="email">Adresse email</label>
             <input type="email" id="email" name="email" placeholder="exemple@email.com" required>
             <button type="submit" id="btn">Envoyer</button>
@@ -41,21 +45,32 @@
             msg.textContent = '';
 
             try {
-                const res = await fetch('/admin/send', {
+                const expiration = new Date();
+                expiration.setDate(expiration.getDate() + 24);
+                const date = expiration.toLocaleDateString('fr-FR');
+
+                const res = await fetch('/.netlify/functions/send-email', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: document.getElementById('email').value })
+                    body: JSON.stringify({
+                        email: document.getElementById('email').value,
+                        resto: document.getElementById('resto').value,
+                        nom:   document.getElementById('nom').value,
+                        date:  date,
+                    }),
                 });
                 const data = await res.json();
                 if (res.ok) {
                     msg.className = 'message success';
                     msg.textContent = 'Email envoyé avec succès à ' + document.getElementById('email').value;
                     document.getElementById('email').value = '';
+                    document.getElementById('resto').value = '';
+                    document.getElementById('nom').value = '';
                 } else {
                     msg.className = 'message error';
                     msg.textContent = 'Erreur : ' + (data.error || 'inconnue');
                 }
-            } catch {
+            } catch (err) {
                 msg.className = 'message error';
                 msg.textContent = 'Erreur réseau.';
             }

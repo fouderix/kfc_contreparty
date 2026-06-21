@@ -19,7 +19,8 @@ exports.handler = async (event) => {
   });
 
   const html = `
-    <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;padding:24px;font-family:Arial,sans-serif;font-size:14px;color:#000;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,sans-serif;font-size:14px;color:#000;">
+      <tr><td style="padding:24px;">
       <tr><td>
         <p style="margin:0 0 12px;">Bonjour ${nom},</p>
         <p style="margin:0 0 12px;">Vous avez récemment gagné un <strong>Menu Bucket Duo</strong> chez <strong>${resto}</strong>.</p>

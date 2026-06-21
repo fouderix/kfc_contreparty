@@ -38,7 +38,7 @@ exports.handler = async (event) => {
   `;
 
   await transporter.sendMail({
-    from: `"${resto}" <${process.env.GMAIL_USER}>`,
+    from: `"ContreParty" <${process.env.GMAIL_USER}>`,
     to: email,
     subject: `${resto} - Votre cadeau`,
     html,

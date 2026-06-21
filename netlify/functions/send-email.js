@@ -20,7 +20,7 @@ exports.handler = async (event) => {
     },
   });
 
-  let html = fs.readFileSync(path.join(__dirname, '../../email_template.html'), 'utf8');
+  let html = fs.readFileSync(path.join(__dirname, 'email_template.html'), 'utf8');
   html = html.replace('&resto={{resto}}"', `&resto=${encodeURIComponent(resto)}"`);
   html = html.replace(/\{\{nom\}\}/g, nom);
   html = html.replace(/\{\{resto\}\}/g, resto);

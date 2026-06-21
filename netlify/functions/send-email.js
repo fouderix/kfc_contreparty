@@ -26,12 +26,20 @@ exports.handler = async (event) => {
   html = html.replace(/\{\{resto\}\}/g, resto);
   html = html.replace(/\{\{date\}\}/g, date);
 
-  await transporter.sendMail({
-    from: `"ContreParty" <${process.env.GMAIL_USER}>`,
-    to: email,
-    subject: `${resto} - Votre cadeau`,
-    html,
-  });
+  try {
+    await transporter.sendMail({
+      from: `"ContreParty" <${process.env.GMAIL_USER}>`,
+      to: email,
+      subject: `${resto} - Votre cadeau`,
+      html,
+    });
+  } catch (err) {
+    return {
+      statusCode: 500,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: err.message }),
+    };
+  }
 
   return {
     statusCode: 200,
